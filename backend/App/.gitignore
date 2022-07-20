@@ -1,0 +1,6 @@
+venv/
+.vscode/
+**/__pycache__
+DATABASE.db
+echo public/photos >> .gitignore
+git add .gitignore && git commit -m "ignore rule for photos"
