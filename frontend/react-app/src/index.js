@@ -6,13 +6,13 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import "./index.css"
 
 
-export default function Index() {
+export default  function Index() {
   return (
     <BrowserRouter>
 
       <Routes> 
-        <Route path="/Register.js" element={<Register />} />
-        <Route path='/Login.js' element={<Login />} />
+        <Route index path="Register" element={<Register />} />
+        <Route path='Login' element={<Login />} />
       </Routes>
 
     </BrowserRouter>
