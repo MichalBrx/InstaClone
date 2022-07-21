@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
@@ -20,10 +20,12 @@ function Register() {
       } 
     })
     
+  const navigateToPage = () => {
+    navigate("/Login");
+    };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(()=>{
-
   if(watch('email') !== "" && watch('name') !== "" && watch('username') !== "" && watch('password') !== ""){
     setIsdiabled(false)
   } else{
@@ -35,10 +37,16 @@ function Register() {
     console.log(response);
   }
 
+  const sendingPostReq = data => {
 
-  const navigateToPage = () => {
-    navigate("/Login");
-    };
+    axios.post("http://127.0.0.1:8000/SignUp",data)
+    .then(response=>console.log(response))
+
+    console.log("errors", errors)
+    navigateToPage()
+  }
+
+
 
   return (
     <div>
@@ -65,7 +73,7 @@ function Register() {
               <div className="line" id="rightline"></div>
               </div>
 
-            <form id="regForm" onSubmit={handleSubmit(data => console.log(data))}>
+            <form id="regForm" onSubmit={handleSubmit(data => sendingPostReq(data))}>
               <input 
                 id="email_inp" 
                 className="reg_input" 
