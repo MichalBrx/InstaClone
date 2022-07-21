@@ -1,16 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {useNavigate} from 'react-router-dom'
-// import axios from 'axios';
+import axios from 'axios';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 function Register() {
 
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
-    // const [name, setName] = useState("");
-    // const [nick, setNick] = useState("");
 
-    const {register,watch, handleSubmit,formState:{errors}} =useForm({
+  const [isdisabled, setIsdiabled] = useState(true);
+
+  const navigate = useNavigate();
+  
+  const {register,watch, handleSubmit,formState:{errors}} =useForm({
       defaultValues: {
         email: '',
         username:'',
@@ -18,15 +19,9 @@ function Register() {
         password:''
       } 
     })
-
-    const [isdisabled, setIsdiabled] = useState(true);
-    const emailRef = useRef();
     
-    const navigate = useNavigate();
-    const navigateToPage = () => {
-      navigate("/Login");
-  };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(()=>{
 
   if(watch('email') !== "" && watch('name') !== "" && watch('username') !== "" && watch('password') !== ""){
@@ -34,8 +29,16 @@ function Register() {
   } else{
     setIsdiabled(true)
   }
-  })
+  },)
 
+  const responseFacebook = (response) => {
+    console.log(response);
+  }
+
+
+  const navigateToPage = () => {
+    navigate("/Login");
+    };
 
   return (
     <div>
@@ -48,7 +51,13 @@ function Register() {
 
             <h2 id="underHeader">Sign Up to see photos and films  your friends.</h2>
             <div id="logByFb_div">
-              <button id="logByFb">Log in by Facebook</button>
+              <FacebookLogin
+                appId="817559656065921"
+                autoLoad={true}
+                callback={responseFacebook} 
+                render={renderProps => (
+                  <button id="logByFb" onClick={renderProps.onClick}>Login by Facebook</button>
+                )}/>
             </div>
             <div id="or">
               <div className="line" id="leftline"></div>
