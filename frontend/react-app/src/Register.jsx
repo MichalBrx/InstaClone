@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {useNavigate} from 'react-router-dom'
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 
 function Register() {
@@ -40,10 +40,25 @@ function Register() {
   const sendingPostReq = data => {
 
     axios.post("http://127.0.0.1:8000/SignUp",data)
-    .then(response=>console.log(response))
+    .then(response =>{
+      if(response.status === 200){
+        navigateToPage()
+      }
+    })
+    .catch(err => {
+      console.log(err.response.status)
+      if(err.response.status){
+        alert("Wrong data")
+      }
+    })
 
-    console.log("errors", errors)
-    navigateToPage()
+
+    // if(data){
+    //   navigateToPage()
+    // }else{
+    //   alert("Wrong data")
+    // }
+
   }
 
 
