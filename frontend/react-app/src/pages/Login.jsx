@@ -1,18 +1,59 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from 'react-router-dom'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import "./login.css"
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 function Login() {
   
   const navigate = useNavigate();
+  const [isdisabled, setIsdiabled] = useState(true);
 
-  const navigateToPage = () => {
+  const navigateToReg = () => {
     navigate("/Register");
+    };
+  const navigateToMain = () => {
+    navigate("/Main");
     };
   const responseFacebook = (response) => {
     console.log(response);
   }
+
+  const {register,watch, handleSubmit} =useForm({
+    defaultValues: {
+      email: '',
+      password:''
+    } 
+  })
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(()=>{
+    if(watch('email') !== "" && watch('password') !== ""){
+      setIsdiabled(false)
+    } else{
+      setIsdiabled(true)
+    }
+    },)
+
+  const sendingPostReq = data =>{
+    console.log(data)
+    let bodyFormData = new FormData();
+    bodyFormData.append('username', data.email)
+    bodyFormData.append('password', data.password)
+
+    axios.post("http://127.0.0.1:8000/SignIn", bodyFormData)
+    .then(response =>{
+      if(response.status === 200){
+        console.log("done")
+      }
+    })
+    .catch(err=>{
+      console.log(err.response.status)
+    })
+    }
+  
+
     return(
       <div>
       <div id="login_container">
@@ -22,19 +63,27 @@ function Login() {
               <img id="insta_img" src="insta.png" alt="Instagram"></img>
             </div>
 
-            <form id="logForm">
+            <form id="logForm" onSubmit={handleSubmit(data => sendingPostReq(data))}>
             <input 
                 id="email_inp" 
                 className="reg_input" 
                 placeholder="Adress email"
+                {...register('email', {required:{
+                  value: true,
+                  message: "Required"
+                }})}
                 ></input>
             <input 
                 id="password_inp" 
                 className="reg_input" 
                 placeholder="Password"
+                {...register('password', {required:{
+                  value:true,
+                  message: "Required"
+                }})}
                 ></input>
 
-            <button type="submit" id="next_butt_log">Log In</button>
+            <button type="submit" id="next_butt_log" disabled={isdisabled}>Log In</button>
             </form>
             <div id="or_login">
               <div className="line" id="leftline"></div>
@@ -54,7 +103,7 @@ function Login() {
           </div>
 
           <div id="ifHave" className="mainReg_temp">
-            <p id="alreadyHave">Don't have an account? <span id="navLogin" onClick={navigateToPage}>Sign Up</span></p>
+            <p id="alreadyHave">Don't have an account? <span id="navLogin" onClick={navigateToReg}>Sign Up</span></p>
           </div>
 
           <div id="fromApp">
