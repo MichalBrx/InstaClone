@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 
-import schemas, deps, models, services
+import fastAPI.schemas as schemas, deps.deps as deps, fastAPI.models as models, deps.services as services
 
 
 # poprzez APIRouter  rządania i ich endpointy przenoszone sa do pliku main.py,

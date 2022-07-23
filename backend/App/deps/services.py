@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from typing import Optional
 
-import schemas, models, hashing, jwt
+import fastAPI.schemas as schemas, fastAPI.models as models, config.hashing as hashing, jwt
 
 # db Session przekazuje inforamcje do bazy danych
 # zmienna isEmailTaken sprawdza czy podany email przez uztykownika
@@ -23,7 +23,7 @@ def check_email(db: Session, *, email: EmailStr) -> Optional[models.User]:
     return isEmailTaken
 
 
-# w tej funkcji gdy check_email zwroci email to wyoskoczy blad Email is taken
+# w tej funkcji gdy check_email zwroci email to wyskoaczy blad Email is taken
 # gdy zwroci none new_user zostanie dodany do bazy danych
 def create_user(db: Session, *, request: schemas.Register) -> models.User:
     if check_email(db, email=request.email):
