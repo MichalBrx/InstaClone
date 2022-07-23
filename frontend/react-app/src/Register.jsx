@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {useNavigate} from 'react-router-dom'
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import "./index.css"
 
 function Register() {
 
@@ -76,7 +77,7 @@ function Register() {
             <div id="logByFb_div">
               <FacebookLogin
                 appId="817559656065921"
-                autoLoad={true}
+                autoLoad={false}
                 callback={responseFacebook} 
                 render={renderProps => (
                   <button id="logByFb" onClick={renderProps.onClick}>Login by Facebook</button>
@@ -162,6 +163,9 @@ function Register() {
           </div>
         </div>
       </div>
+      <footer >
+        <div id="copyright">2022 InstaClone from Michał</div>
+      </footer>
     </div>
   );
 }

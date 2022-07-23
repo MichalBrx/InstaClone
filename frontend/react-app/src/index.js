@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import Register from './Register';
 import Login from './pages/Login';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import "./index.css"
+
 
 
 export default  function Index() {
