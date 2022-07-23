@@ -3,8 +3,6 @@
   font-family: Arial, sans-serif;
 }
 
-
-
 .app_pics{
   width: 135px;
 }
@@ -135,6 +133,7 @@
   border: none;
   font-weight: bolder;
   transition: 0.3s;
+  margin-top: 7.5px;
 }
 
 #next_butt:enabled{
@@ -142,8 +141,6 @@
   transition: 0.3s;
   opacity: 5;
 }
-
-
 
 #ifHave{
   margin-top: 10px;
@@ -176,3 +173,19 @@
 .app_pics{
   margin: 7.5px;
 }
+
+footer{
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+}
+#copyright{
+  font-size: 12px;
+  color: #8e8e8e;
+}
+
+
+
+
+/* Login file css  */
+
