@@ -54,12 +54,6 @@ function Register() {
     })
 
 
-    // if(data){
-    //   navigateToPage()
-    // }else{
-    //   alert("Wrong data")
-    // }
-
   }
 
 
@@ -96,7 +90,7 @@ function Register() {
                 placeholder="Adress email"
                 {...register('email', {required: {
                   value: true,
-                  message: "This is required"
+                  message: "Required"
                 }})}
                 ></input>
               <input 
@@ -105,7 +99,7 @@ function Register() {
                 placeholder="Name & Surname"
                 {...register('name', {required: {
                   value: true,
-                  message: "This is required"
+                  message: "Required"
                 }})}
                 ></input>
               <input 
@@ -114,7 +108,7 @@ function Register() {
                 placeholder="Username"
                 {...register('username', {required: {
                   value: true,
-                  message: "This is required"
+                  message: "Required"
                 }})}
                 ></input>
               <input 
@@ -125,7 +119,7 @@ function Register() {
                 {...register('password', {
                   required: {
                     value: true,
-                    message: "This is required"}, 
+                    message: "Required"}, 
                   minLength:{
                     value: 6,
                     message: "Your password is too short"

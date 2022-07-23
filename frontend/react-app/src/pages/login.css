@@ -22,6 +22,11 @@
   transition: 0.3s;
   margin-top: 10px;
 }
+#next_butt_log:enabled{
+    background-color: #0095f6;
+    transition: 0.3s;
+    opacity: 5;
+  }
 
 #or_login{
     display: flex;
