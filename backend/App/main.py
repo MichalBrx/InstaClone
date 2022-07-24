@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-import fastAPI.models as models, database
+import fastAPI.models as models, db.database as database
 import routers.api as api
 
 app = FastAPI()

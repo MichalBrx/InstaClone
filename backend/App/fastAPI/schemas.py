@@ -6,3 +6,9 @@ class Register(BaseModel):
     password: str
     email: EmailStr
     name: str
+
+
+class User(BaseModel):
+    id: int
+    username: str
+    email: EmailStr

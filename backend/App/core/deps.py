@@ -1,4 +1,4 @@
-from database import SessionLocal
+from db.database import SessionLocal
 
 # wstzykuje rzeczywista (aktualna) sesje sqlAlchemy ORM
 # dzieki temu tworzy sie sesja bazy danych i po zakonczeniu funkcji zamknie sie

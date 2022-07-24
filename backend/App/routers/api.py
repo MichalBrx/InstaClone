@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from fastapi.security import OAuth2PasswordRequestForm
 
-import fastAPI.schemas as schemas, deps.deps as deps, fastAPI.models as models, deps.services as services
+import fastAPI.schemas as schemas, core.deps as deps, fastAPI.models as models, services.services as services
 
 
 # poprzez APIRouter  rządania i ich endpointy przenoszone sa do pliku main.py,
@@ -28,3 +28,8 @@ async def SignIn(
 ):
     access_token = services.token_valid(db, form_data)
     return {"access_token": access_token, "token_type": "bearer"}
+
+
+@router.get("/GetUsername")
+async def getUsername(current_user: schemas.User = Depends(services.get_current_user)):
+    return current_user
