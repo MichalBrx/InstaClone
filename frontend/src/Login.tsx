@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext, useRef} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {useNavigate} from 'react-router-dom'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { useForm } from "react-hook-form";
@@ -19,7 +19,7 @@ function Login() {
     navigate("/Register");
     };
   const navigateToMain = () => {
-    navigate("/Main");
+    navigate("/");
     };
 
   const responseFacebook = (response: any) => {
@@ -44,11 +44,8 @@ function Login() {
 
   const sendingPostReq = (data: { email: any; password: any; }) =>{
     console.log(data)
-    let bodyFormData = new FormData();
-    bodyFormData.append('username', data.email)
-    bodyFormData.append('password', data.password)
 
-    axios.post("http://127.0.0.1:8000/SignIn", bodyFormData)
+    axios.post("http://127.0.0.1:8000/SignIn", data, {withCredentials: true})
     .then(response =>{
       if(response.status === 200){
         console.log(response)
@@ -146,3 +143,4 @@ function Login() {
 }
 
 export default Login;
+
