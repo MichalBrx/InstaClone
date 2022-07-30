@@ -12,7 +12,7 @@ function Register() {
 
   const navigate = useNavigate();
   
-  const {register,watch, handleSubmit} =useForm({
+  const {register,watch, handleSubmit, formState: {errors}} =useForm({
       defaultValues: {
         email: '',
         username:'',
@@ -49,7 +49,17 @@ function Register() {
     .catch(err => {
       console.log(err.response.status)
       if(err.response.status){
-        alert("Wrong data")
+        if(!err?.response) {
+          console.log('No server response', errors);
+        } else if (err.response.status === 400) {
+          console.log('Missing email or password', errors);
+        } else if (err.response.status ===401) {
+          console.log('Unauthorized', errors);
+        } else if (err.response.status ===422) {
+          console.log('Email is Taken', errors);
+        } else {
+          console.log("Login Failed", errors);
+        }
       }
     })
 
@@ -83,7 +93,7 @@ function Register() {
               <div className="w-104 text-center border-b leading-3 my-3 mb-6"></div>
               </div>
 
-            <form className="grid" onSubmit={handleSubmit(data => sendingPostReq(data))}>
+            <form className="grid" id="regForm" onSubmit={handleSubmit(data => sendingPostReq(data))}>
               <input 
                 className="flex w-260 max-h-4 m-sm bg-fafa border border-border_col rounded font-light text-xs justify-self-center p-4 focus:outline-0 mb-2"
                 placeholder="Adress email"
