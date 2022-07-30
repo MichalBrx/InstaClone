@@ -1,11 +1,18 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from starlette.middleware import Middleware
+from starlette.middleware.sessions import SessionMiddleware
 
-import fastAPI.models as models, db.database as database
-import routers.api as api
+from fastapi.responses import JSONResponse
+from fastapi_jwt_auth import AuthJWT
+from fastapi_jwt_auth.exceptions import AuthJWTException
+from pydantic import BaseModel
+
+import models, db.database as database, schemas
+from api import router
 
 app = FastAPI()
-app.include_router(api.router)
+app.include_router(router)
 
 # moduł to oddzielny twór (często plik) stworzony w celu pisania
 # bardziej przejrzystego kodu
@@ -15,7 +22,7 @@ app.include_router(api.router)
 #   miedzy serwerem a strona WWW
 
 # origins to sciezka po której frontend wysyla żądania do backendu
-origins = ["http://localhost:3000"]
+origins = ["http://127.0.0.1:5173"]
 
 # middleware to oprogramowanie pośrednie, ktore umozliwia
 #   wykonywanie nowych usług i możliwości ->[zarzadzanie danymi,
@@ -62,6 +69,17 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@AuthJWT.load_config
+def get_config():
+    return schemas.Settings()
+
+
+@app.exception_handler(AuthJWTException)
+def authjwt_exception_handler(request: schemas.Register, exc: AuthJWTException):
+    return JSONResponse(status_code=exc.status_code, content={"detail": exc.message})
+
 
 # generuje schemat bazy danych na podstawie pliku models
 # (klas tam zawartych i ich zmiennych)
