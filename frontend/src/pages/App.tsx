@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import {useNavigate} from 'react-router-dom'
 import axios from 'axios';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
-import "./index.css"
+import ".././index.css"
 
 function Register() {
 
@@ -40,7 +40,7 @@ function Register() {
 
   const sendingPostReq = (data: { email: string; username: string; name: string; password: string; }) => {
 
-    axios.post("http://127.0.0.1:8000/SignUp",data)
+    axios.post("http://127.0.0.1:8000/signup",data)
     .then(response =>{
       if(response.status === 200){
         navigateToPage()
