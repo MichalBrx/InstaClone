@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 from pydantic import EmailStr
-from typing import Optional
+from typing import Any, Optional
 from fastapi import Depends
 
 import models

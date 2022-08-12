@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware import Middleware
@@ -6,7 +7,7 @@ from starlette.middleware.sessions import SessionMiddleware
 from fastapi.responses import JSONResponse
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
-from pydantic import BaseModel
+from pydantic import BaseModel, BaseSettings
 
 import models, db.database as database, schemas
 from api import router
@@ -22,7 +23,7 @@ app.include_router(router)
 #   miedzy serwerem a strona WWW
 
 # origins to sciezka po której frontend wysyla żądania do backendu
-origins = ["http://127.0.0.1:5173"]
+origins = ["http://127.0.0.1:5173", "http://192.168.0.17:5173"]
 
 # middleware to oprogramowanie pośrednie, ktore umozliwia
 #   wykonywanie nowych usług i możliwości ->[zarzadzanie danymi,
@@ -71,9 +72,24 @@ app.add_middleware(
 )
 
 
+class JWTSettings(BaseSettings):
+    authjwt_secret_key: str = "secret"
+    # Configure application to store and get JWT from cookies
+    authjwt_token_location: set = {"cookies"}
+    # Only allow JWT cookies to be sent over https
+    authjwt_cookie_secure: bool = False
+    # Enable csrf double submit protection. default is True
+    authjwt_cookie_csrf_protect: bool = False
+    # Change to 'lax' in production to make your website more secure from CSRF Attacks, default is None
+    # authjwt_cookie_samesite: Optional[str] = None
+    authjwt_cookie_domain: Optional[str] = None
+
+
 @AuthJWT.load_config
 def get_config():
-    return schemas.Settings()
+    jwt_settings = JWTSettings()
+    del jwt_settings.authjwt_cookie_domain
+    return jwt_settings
 
 
 @app.exception_handler(AuthJWTException)
