@@ -1,9 +1,11 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from 'react-router-dom'
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { useForm } from "react-hook-form";
 import axios from "axios";
-
+import { useLoginUserMutation } from "../app/api/authAPI";
+import { useAppDispatch } from "../hooks/store";
+// import { setUser } from "../features/authSlice";
 
 
 function Login() {
@@ -12,8 +14,15 @@ function Login() {
   const navigate = useNavigate();
 
   const [isdisabled, setIsdiabled] = useState(true);
+  const[errorMsg, setErrorMsg] = useState('')
 
-  const errRef = useRef();
+  const dispatch = useAppDispatch()
+
+  const {register,watch, handleSubmit, formState: {errors}} =useForm({
+    defaultValues: {
+      email: '',
+      password:''
+    }})
 
   const navigateToReg = () => {
     navigate("/Register");
@@ -26,49 +35,40 @@ function Login() {
     console.log(response);
   }
 
-  const {register,watch, handleSubmit, formState: {errors}} =useForm({
-    defaultValues: {
-      email: '',
-      password:''
-    } 
-  })
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(()=>{
+
+  const [
+    loginUser, {
+      data: data, 
+      isSuccess: isLoginSuccess,
+      isError: isLoginError, 
+      error: loginError
+    }] = useLoginUserMutation();
+
+
+  useEffect(() => {
     if(watch('email') !== "" && watch('password') !== ""){
       setIsdiabled(false)
     } else{
       setIsdiabled(true)
-    }
-    },)
+    }},)
 
-  const sendingPostReq = (data: { email: any; password: any; }) =>{
+  const sendingPostReq = async (data: { email: any; password: any; }) =>{
     console.log(data)
 
-    axios.post("http://127.0.0.1:8000/SignIn", data, {withCredentials: true})
-    .then(response =>{
-      if(response.status === 200){
-        console.log(response)
-
-        var email = watch('email')
-        var pwd = watch('password')
-        const accesToken = response?.data?.access_token
-        navigateToMain()
-      }
-    })
-    .catch(err=>{
-      if(!err?.response) {
-        console.log('No server response', errors);
-      } else if (err.response.status === 400) {
-        console.log('Missing email or password', errors);
-      } else if (err.response.status ===401) {
-        console.log('Unauthorized', errors);
-      } else {
-        console.log("Login Failed", errors);
-      }
-    //   errRef.current.focus()
-    })
+    if(watch('email') && watch('password')){
+      await loginUser(data)
+    } else { 
+      console.log(errors)
     }
+    }
+
+  useEffect(() => {
+    if(isLoginSuccess) {
+      setErrorMsg('')
+      navigateToMain()
+    }
+  }, [isLoginSuccess])
   
 
     return(    

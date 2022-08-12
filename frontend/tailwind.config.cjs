@@ -27,7 +27,8 @@ module.exports = {
       '25rem': '25rem',
       '1.75rem': '1.75rem',
       '100%': '100%',
-      '29.25rem': '29.25rem'
+      '29.25rem': '29.25rem',
+      '4rem': '4rem'
 
     },
     // margin: {
