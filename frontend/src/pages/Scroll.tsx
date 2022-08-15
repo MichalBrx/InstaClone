@@ -8,7 +8,7 @@ import { useGetCurrentUserQuery, useGetAllUsersQuery } from "../app/api/authAPI"
 
 import OutsideClickHandler from 'react-outside-click-handler';
 
-
+import Search from "./Search";
 
 
 function Scroll() {
@@ -57,62 +57,21 @@ const dropDown = (
   </div>
 )
 
-const searchList = (
-  <div id="searchList" className="relative z-10 w-350 bg-white divide-y divide-gray-100 shadow-lg mt-1 rounded-lg h-80">
-    <div className="py-1 px-4 flex items-end justify-between">
-      <p className="font-bold">Recent</p>
-      <a className= "text-sm text-fb font-medium">clear all</a>
-    </div>
-    <ul className="py-1 text-sm border-none" aria-labelledby="dropdownDefault">
-      <li>
-        <a href="#" className="block py-2 px-4 ">Dashboard</a>
-      </li>
-      <li>
-        <a href="#" className="block py-2 px-4 ">Settings</a>
-      </li>
-      <li>
-        <a href="#" className="block py-2 px-4  ">Earnings</a>
-      </li>
-      <li>
-        <a href="#" className="block py-2 px-4  ">Sign out</a>
-      </li>
-    </ul>
-</div>
-)
+
 
   const [searchValue, setSearchValue] = useState<string>("")
-  const [num, setNum] = useState()
-
-
-function randomNumber(min:number, max:number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
 
 
 
 
 
-  const allUsers =  async () => {
-    const {data, error} = useGetAllUsersQuery()
-    var randomUsers: Array<object> = []
-    useEffect(() => {
-      console.log(data)
-      for( let i = 0; i<5; i++) {
-        randomUsers.push(data[i])
-      }
-  console.log(randomUsers)
-    },[])
-  } 
-  allUsers()
 
 
-
-
+  var searchList = (<Search/>)
 
 
     return(
       <div>
-
         <div className="flex h-16 border-b border-border_col justify-center bg-navBar mb-7 w-100% " >
           <div className="mx-4 flex justify-center items-center">
             <img className="w-104" src="insta.png" alt="Instagram"/>
@@ -170,14 +129,14 @@ function randomNumber(min:number, max:number) {
 
           <div className="w-350  h-20 ml-8 ">
 
-              <div className="flex justify-left w-350">
-              <IconContext.Provider value={{className: "h-14 w-4rem"}}><BsPersonCircle /></IconContext.Provider>
-              
-              <div className="grid ml-3 mt-1">               
-               <p>{data?.username}</p>  
-               <p>{data?.name}</p>   
-              </div>
-              
+              <div className="flex justify-left w-350 items-center">
+                <img className="rounded-full w-4rem m-2" src="https://cdn130.picsart.com/318381621277201.jpg" alt="image"></img>
+                
+                <div className="ml-3 mt-1">               
+                  <p className="font-semibold text-sm">{data?.username}</p>  
+                  <p className="text-txt_grey">{data?.name}</p>   
+                </div>
+                
               </div>
               <p className="text-txt_grey text-sm font-semibold my-3">
                 Suggestions For You

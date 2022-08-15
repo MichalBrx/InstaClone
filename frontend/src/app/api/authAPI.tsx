@@ -9,10 +9,10 @@ export const authApi = createApi({
     }),
     tagTypes: ["Login"],
     endpoints: (builder) => ({
-        getCurrentUser: builder.query<'get',void>({
+        getCurrentUser: builder.query<'User',void>({
             query: () => "/getuser"
         }),
-        loginUser:  builder.mutation({
+        loginUser:  builder.mutation<'Login',any>({
             query: (body) => ({
                 url: "signin",
                 method: "POST",
@@ -20,14 +20,18 @@ export const authApi = createApi({
             }),
             invalidatesTags: ["Login"]
         }),
-        getAllUsers: builder.query<'get',void>({
+        getAllUsers: builder.query<'Users',any>({
             query: () => "/allusers"
         })
 
     })
 })
 
-export const {useLoginUserMutation, useGetCurrentUserQuery, useGetAllUsersQuery} = authApi
+export const {
+    useLoginUserMutation, 
+    useGetCurrentUserQuery, 
+    useGetAllUsersQuery
+    } = authApi
 
 
 
