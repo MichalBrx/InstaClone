@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react'
-import { useGetAllUsersQuery } from '../app/api/authAPI'
+import { useGetAllUsersQuery } from '../../app/api/authAPI'
 
 const Search = () => {
 
   const {data, isSuccess, error,} = useGetAllUsersQuery()
 
   // setting random numbers into array called numbers, numbers can not repeat
+  var numbers: Array<number> = []
   function randomNum(min: number, max: number) {
-    var numbers: Array<number> = []
     for (let i = 0; i < 5; i++) {
       do {
         var random = Math.floor(Math.random() * (max - min )) + min;
@@ -26,27 +26,16 @@ function Component() {
   let arr = randomNum(0, data.length)
   return (
     <>
-      <li>
-          <a href="#" className="py-2 px-4 flex items-center">
-            <img className="rounded-full w-3rem m-2" src='https://cdn130.picsart.com/318381621277201.jpg' alt='user_img'></img>
+    {arr.map((num) => 
+      <li key={num}>
+          <a href="#" className="px-4 flex items-center">
+            <img className="rounded-full w-3rem mx-2 my-1" src='https://cdn130.picsart.com/318381621277201.jpg' alt='user_img'></img>
             <div className="">
-              <p className="font-semibold text-base">{data[arr[0]].username}</p>
-              <p className="text-txt_grey">{data[arr[0]].name}</p>
+              <p className="font-semibold text-base">{data[num].username}</p>
+              <p className="text-txt_grey">{data[num].name}</p>
             </div>
           </a>
-      </li>
-      <li>
-        <a href="#" className="block py-2 px-4  ">{data[arr[1]].username}</a>
-      </li>
-      <li>
-        <a href="#" className="block py-2 px-4  ">{data[arr[2]].username}</a>
-      </li>
-      <li>
-        <a href="#" className="block py-2 px-4  ">{data[arr[3]].username}</a>
-      </li>
-      <li>
-        <a href="#" className="block py-2 px-4  ">{data[arr[4]].username}</a>
-      </li>
+      </li>)}
     </>
   )
 }

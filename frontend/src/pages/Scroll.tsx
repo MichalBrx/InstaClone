@@ -4,12 +4,13 @@ import {FaRegPlusSquare, FaRegCompass, FaRegHeart} from 'react-icons/fa';
 import { IconContext } from "react-icons";
 import { MdHomeFilled } from "react-icons/md";
 import { BsChatDots, BsPersonCircle } from "react-icons/bs";
-import { useGetCurrentUserQuery, useGetAllUsersQuery } from "../app/api/authAPI";
+import { useGetCurrentUserQuery } from "../app/api/authAPI";
 
 import OutsideClickHandler from 'react-outside-click-handler';
 
-import Search from "./Search";
-
+import Search from "./components/Search";
+import Suggestions from "./components/Suggestions";
+import Newpost from "./components/Newpost";
 
 function Scroll() {
 
@@ -17,6 +18,7 @@ function Scroll() {
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isFocused, setIsFocused] = useState<boolean>(false)
+  const [isCreate, setIsCreate] = useState <boolean>(false)
   const {data, error, isLoading, isSuccess, isError} = useGetCurrentUserQuery()
 
   const navigateToLog = () => {
@@ -63,16 +65,13 @@ const dropDown = (
 
 
 
-
-
-
-
   var searchList = (<Search/>)
-
+  var suggestions = (<Suggestions/>)
+  var newPost = (<Newpost/>)
 
     return(
       <div>
-        <div className="flex h-16 border-b border-border_col justify-center bg-navBar mb-7 w-100% " >
+        <div className="flex h-16 border-b border-border_col justify-center bg-navBar mb-7 w-100%">  
           <div className="mx-4 flex justify-center items-center">
             <img className="w-104" src="insta.png" alt="Instagram"/>
           </div>
@@ -93,9 +92,14 @@ const dropDown = (
             <div id="chat" className="h-7 mx-3 w-1.75rem cursor-pointer">
               <BsChatDots/>
             </div>
+            <OutsideClickHandler
+              onOutsideClick={() => {
+              setIsCreate(false);
+            }}>
             <div id="create_post" className="h-7 mx-3 w-1.75rem cursor-pointer">
-              <FaRegPlusSquare/>
-            </div>
+              <button onClick={() => setIsCreate(!isCreate)}><FaRegPlusSquare/></button>
+              {isCreate ? newPost : null}
+            </div></OutsideClickHandler>
             <div id="discover" className="h-7 mx-3 w-1.75rem cursor-pointer">
               <FaRegCompass/>
             </div>
@@ -103,7 +107,7 @@ const dropDown = (
               <FaRegHeart/>
             </div>
             <OutsideClickHandler
-            onOutsideClick={() => {
+              onOutsideClick={() => {
               setIsOpen(false);
             }}>
               <div id="profile" className="h-7 mx-3 w-1.75rem cursor-pointer">
@@ -143,15 +147,11 @@ const dropDown = (
               </p>
 
               <div id="other_users" className="">
-                <div className="p-1 h-12">user1</div>
-                <div className="p-1 h-12">user2</div>
-                <div className="p-1 h-12">user3</div>
-                <div className="p-1 h-12">user4</div>
-                <div className="p-1 h-12">user5</div>
+                {suggestions}
               </div> 
             
 
-             <p className="text-txt_grey text-xs"> © 2022 INSTAGRAM FROM MICHAL</p>
+             <p className="text-txt_grey text-xs mt-3"> © 2022 INSTAGRAM FROM MICHAL</p>
 
 
           </div>
