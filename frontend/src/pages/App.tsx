@@ -21,9 +21,6 @@ function Register() {
       } 
     })
     
-  const navigateToPage = () => {
-    navigate("/Login");
-    };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(()=>{
@@ -43,7 +40,7 @@ function Register() {
     axios.post("http://127.0.0.1:8000/signup",data)
     .then(response =>{
       if(response.status === 200){
-        navigateToPage()
+        navigate("/Login")
       }
     })
     .catch(err => {
@@ -147,7 +144,7 @@ function Register() {
           </div>
 
           <div className="flex justify-center mt-3 px-3 py-5 text-sm border border-border_col">
-            <p id="alreadyHave">Have an account? <span className="hover:cursor-pointer text-fb" onClick={navigateToPage}>Log In</span></p>
+            <p id="alreadyHave">Have an account? <span className="hover:cursor-pointer text-fb" onClick={() => navigate("/Login")}>Log In</span></p>
           </div>
 
           <div className="mt-3">

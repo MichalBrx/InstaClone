@@ -33,7 +33,7 @@ module.exports = {
       '4rem': '4rem',
       '3rem': '3rem',
       '47rem': '47rem',
-
+      "photo": "470px"
 
     },
     // margin: {

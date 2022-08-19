@@ -67,7 +67,7 @@ const dropDown = (
 
   var searchList = (<Search/>)
   var suggestions = (<Suggestions/>)
-  var newPost = (<Newpost/>)
+  var newPost = (<Newpost />)
 
     return(
       <div>

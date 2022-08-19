@@ -28,6 +28,13 @@ export const authApi = createApi({
         }),
         getAllUsers: builder.query<User, void>({
             query: () => "/allusers"
+        }),
+        uploadFile: builder.mutation<'File', any>({
+            query: (body) => ({
+                url: "/upload",
+                method: "POST",
+                body
+            })
         })
 
     })
@@ -36,7 +43,8 @@ export const authApi = createApi({
 export const {
     useLoginUserMutation, 
     useGetCurrentUserQuery, 
-    useGetAllUsersQuery
+    useGetAllUsersQuery,
+    useUploadFileMutation
     } = authApi
 
 
