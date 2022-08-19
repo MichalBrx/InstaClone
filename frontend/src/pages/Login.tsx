@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useLoginUserMutation } from "../app/api/authAPI";
 import { useAppDispatch } from "../hooks/store";
-// import { setUser } from "../features/authSlice";
+
 
 
 function Login() {
@@ -24,12 +24,6 @@ function Login() {
       password:''
     }})
 
-  const navigateToReg = () => {
-    navigate("/Register");
-    };
-  const navigateToMain = () => {
-    navigate("/");
-    };
 
   const responseFacebook = (response: any) => {
     console.log(response);
@@ -66,7 +60,7 @@ function Login() {
   useEffect(() => {
     if(isLoginSuccess) {
       setErrorMsg('')
-      navigateToMain()
+      navigate("/")
     }
   }, [isLoginSuccess])
   
@@ -119,7 +113,7 @@ function Login() {
           </div>
 
           <div id="ifHave" className="flex justify-center mt-3 px-3 py-5 text-sm border border-border_col">
-            <p id="alreadyHave">Don't have an account? <span className="hover:cursor-pointer text-fb" onClick={navigateToReg}>Sign Up</span></p>
+            <p id="alreadyHave">Don't have an account? <span className="hover:cursor-pointer text-fb" onClick={() => navigate("/Register")}>Sign Up</span></p>
           </div>
 
           <div className="mt-3">
