@@ -20,7 +20,13 @@ const Newpost = () => {
 
      
   const handleSubmit = () => {
-    uploadFile(selectedFile)
+    const formData = new FormData()
+    formData.append(
+      "file",
+      selectedFile,
+      selectedFile.name
+    )
+    uploadFile(formData)
     console.log(data)
   }
 
