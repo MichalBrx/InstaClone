@@ -1,5 +1,5 @@
 from typing import Any, List
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, File, UploadFile
 from requests import session
 from sqlalchemy.orm import Session
 from sqlalchemy import func
@@ -12,7 +12,7 @@ import schemas, deps, services, crud, hashing, models
 
 # poprzez APIRouter  rządania i ich endpointy przenoszone sa do pliku main.py,
 # dzieki odwolania api.router
-router = APIRouter()
+router = APIRouter(tags=["api"])
 
 
 # /SignUp to endpoint w ktory uderza user metodą rzadania post
