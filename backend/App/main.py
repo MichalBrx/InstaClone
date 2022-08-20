@@ -10,10 +10,11 @@ from fastapi_jwt_auth.exceptions import AuthJWTException
 from pydantic import BaseModel, BaseSettings
 
 import models, db.database as database, schemas
-from api import router
+import api, api_upload
 
 app = FastAPI()
-app.include_router(router)
+app.include_router(api.router)
+app.include_router(api_upload.router)
 
 # moduł to oddzielny twór (często plik) stworzony w celu pisania
 # bardziej przejrzystego kodu
