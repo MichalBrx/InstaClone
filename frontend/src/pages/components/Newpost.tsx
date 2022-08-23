@@ -18,14 +18,17 @@ const Newpost = () => {
       error: loginError
     }] = useUploadFileMutation();
 
+
      
   const handleSubmit = () => {
-    const formData = new FormData()
+    const formData = new FormData() 
     formData.append(
       "file",
       selectedFile,
       selectedFile.name
     )
+    formData.append('cap', caption)
+
     uploadFile(formData)
     console.log(data)
   }
