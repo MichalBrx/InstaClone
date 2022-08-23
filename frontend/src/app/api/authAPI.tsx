@@ -4,8 +4,15 @@ interface User {
     username: string,
     name: string,
     num: number,
-    length: number
+    length: number,
+    [propName: number]: any
   }
+
+interface Posts {
+    user_email: string,
+    caption: string,
+    file_name: string
+}
 
 export const authApi = createApi({
     reducerPath: "authApi",
@@ -13,12 +20,12 @@ export const authApi = createApi({
     credentials: 'include',
     baseUrl: "http://192.168.0.17:8000"
     }),
-    tagTypes: ["Login"],
+    tagTypes: ["Login", "Posts"],
     endpoints: (builder) => ({
         getCurrentUser: builder.query<User, void>({
             query: () => "/getuser"
         }),
-        loginUser:  builder.mutation<'Login', any>({
+        loginUser:  builder.mutation<User, any>({
             query: (body) => ({
                 url: "signin",
                 method: "POST",
@@ -29,12 +36,15 @@ export const authApi = createApi({
         getAllUsers: builder.query<User, void>({
             query: () => "/allusers"
         }),
-        uploadFile: builder.mutation<'File', any>({
+        uploadFile: builder.mutation<Posts, any>({
             query: (body) => ({
                 url: "/upload",
                 method: "POST",
                 body
             })
+        }),
+        getAllPosts: builder.query<Posts, void>({
+            query: () => "/getAllPosts"
         })
 
     })
@@ -44,7 +54,8 @@ export const {
     useLoginUserMutation, 
     useGetCurrentUserQuery, 
     useGetAllUsersQuery,
-    useUploadFileMutation
+    useUploadFileMutation,
+    useGetAllPostsQuery
     } = authApi
 
 

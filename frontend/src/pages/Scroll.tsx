@@ -11,6 +11,10 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import Search from "./components/Search";
 import Suggestions from "./components/Suggestions";
 import Newpost from "./components/Newpost";
+import ViewPosts from "./components/ViewPosts";
+
+// TODO || ASAP || przy propozycyjnych znajomych nie moze wyswietlac sie 
+// TODO || profil zalogowanego uzytkownika
 
 function Scroll() {
 
@@ -68,6 +72,7 @@ const dropDown = (
   var searchList = (<Search/>)
   var suggestions = (<Suggestions/>)
   var newPost = (<Newpost />)
+  var viewPosts = (<ViewPosts />)
 
     return(
       <div>
@@ -97,7 +102,7 @@ const dropDown = (
               setIsCreate(false);
             }}>
             <div id="create_post" className="h-7 mx-3 w-1.75rem cursor-pointer">
-              <button onClick={() => setIsCreate(!isCreate)}><FaRegPlusSquare/></button>
+              <button onClick={() => setIsCreate(true)}><FaRegPlusSquare/></button>
               {isCreate ? newPost : null}
             </div></OutsideClickHandler>
             <div id="discover" className="h-7 mx-3 w-1.75rem cursor-pointer">
@@ -127,7 +132,7 @@ const dropDown = (
 
             </div>
             <div className="bg-navBar border border-border_col w-29.25rem h-96">
-
+                {viewPosts}
             </div>
           </div>
 

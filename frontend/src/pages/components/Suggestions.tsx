@@ -25,8 +25,6 @@ var numbers: Array<any> = []
 
   function Component() {
     
-
-
         const arr = randomNum(0, data.length)
 
     return (
@@ -50,6 +48,7 @@ var numbers: Array<any> = []
   return (
     <>
     <ul className="py-1 text-sm border-none" aria-labelledby="dropdownDefault">
+
 
         {isSuccess ? Component() : null}
 
