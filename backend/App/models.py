@@ -1,11 +1,6 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, ForeignKey
 from db.database import Base
-
-# from base import Base_token
-# import secrets
-# from datetime import datetime, timedelta
-# from pydantic import EmailStr
-# from sqlalchemy import DateTime
+from sqlalchemy.orm import relationship
 
 
 class User(Base):
@@ -15,3 +10,15 @@ class User(Base):
     password = Column(String)
     email = Column(String)
     name = Column(String)
+
+    post = relationship("Post", back_populates="user")
+
+
+class Post(Base):
+    __tablename__ = "post"
+    id = Column(Integer, primary_key=True, index=True)
+    user_email = Column(String, ForeignKey("user.email"))
+    caption = Column(String)
+    file_name = Column(String)
+
+    user = relationship("User", back_populates="post")
