@@ -29,3 +29,10 @@ class AllUsers(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Post(BaseModel):
+    caption: str
+
+    class Config:
+        orm_mode = True

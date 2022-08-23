@@ -1,10 +1,10 @@
-from fastapi import APIRouter, Depends, File, UploadFile, HTTPException, status
-from fastapi_jwt_auth import AuthJWT
+from fastapi import APIRouter, Depends, Form, File, UploadFile, HTTPException, status
+from sqlalchemy.orm.session import Session
 
 from fastapi.staticfiles import StaticFiles
 from PIL import Image
 import secrets
-import models, deps, crud
+import deps, schemas, models
 
 
 router = APIRouter(tags=["api_upload"])
@@ -14,13 +14,11 @@ router.mount("/static", StaticFiles(directory="static"), name="static")
 
 @router.post("/upload")
 async def receiveFile(
+    db: Session = Depends(deps.get_db),
+    cap: str = Form(...),
     file: UploadFile = File(...),
-    Authorize: AuthJWT = Depends(),
     user: models.User = Depends(deps.get_current_user),
 ):
-
-    Authorize.jwt_required()
-    curr_user = Authorize.get_jwt_subject()
 
     FILEPATH = "./static/images/"
     filename = file.filename
@@ -32,6 +30,11 @@ async def receiveFile(
             status_code=status.HTTP_405_METHOD_NOT_ALLOWED,
             detail="File extension not allowed",
         )
+
+    new_post = models.Post(user_email=user.email, caption=cap, file_name=filename)
+    db.add(new_post)
+    db.commit()
+    db.refresh(new_post)
 
     # j1shgd73h0.jpg  --> example value of token_name
     token_name = secrets.token_hex(10) + "." + extension
@@ -53,9 +56,9 @@ async def receiveFile(
 
     file.close()
 
-    return {"file_name": filename}
+    return {"new_post": new_post}
 
 
-# @router.post("/upload")
-# async def receiveFile(file: UploadFile = File(...)):
-#     return {"filename": file.filename}
+@router.get("/getAllPosts")
+async def getAllPosts(db: Session = Depends(deps.get_db)):
+    return db.query(models.Post).all()
