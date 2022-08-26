@@ -20,7 +20,7 @@ async def receiveFile(
     user: models.User = Depends(deps.get_current_user),
 ):
 
-    FILEPATH = "./static/images/"
+    FILEPATH = "../../frontend/public/usersPosts/"
     filename = file.filename
     # fileName.jpg --> ["fileName", "jpg"]
     extension = filename.split(".")[1]
@@ -31,13 +31,13 @@ async def receiveFile(
             detail="File extension not allowed",
         )
 
-    new_post = models.Post(user_email=user.email, caption=cap, file_name=filename)
+    # j1shgd73h0.jpg  --> example value of token_name
+    token_name = secrets.token_hex(10) + "." + extension
+
+    new_post = models.Post(user_email=user.email, caption=cap, file_name=token_name)
     db.add(new_post)
     db.commit()
     db.refresh(new_post)
-
-    # j1shgd73h0.jpg  --> example value of token_name
-    token_name = secrets.token_hex(10) + "." + extension
 
     # ./static/images/j1shgd73h0.jpg  --> example value of generated_name
     generated_name = FILEPATH + token_name
@@ -51,9 +51,9 @@ async def receiveFile(
         file.write(file_content)
 
     img = Image.open(generated_name)
-    img = img.resize(size=(432, 580))
-    img.save(generated_name)
 
+    img.save(generated_name)
+    # img = img.resize(size=(466, 580))
     file.close()
 
     return {"new_post": new_post}

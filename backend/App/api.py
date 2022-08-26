@@ -1,13 +1,13 @@
-from typing import Any, List
-from fastapi import APIRouter, Depends, File, UploadFile
-from requests import session
-from sqlalchemy.orm import Session
-from sqlalchemy import func
+from typing import Any, List, Optional
+from fastapi import APIRouter, Depends, Query
 
+from sqlalchemy.orm import Session
+from sqlalchemy import func, or_
 from fastapi_jwt_auth import AuthJWT
 from fastapi.responses import JSONResponse
 
-import schemas, deps, services, crud, hashing, models
+
+import schemas, deps, services, models
 
 
 # poprzez APIRouter  rządania i ich endpointy przenoszone sa do pliku main.py,
@@ -75,3 +75,28 @@ async def get_current_user(
 @router.get("/allusers", response_model=List[schemas.AllUsers])
 async def get_all_users(db: Session = Depends(deps.get_db)):
     return db.query(models.User).all()
+
+
+@router.get("/search/")
+def search(
+    search: Optional[str] = None,
+    skip: int = Query(0, ge=0),
+    limit: int = Query(5, ge=0),
+    db: Session = Depends(deps.get_db),
+) -> Any:
+
+    q = db.query(models.User)
+
+    if not search:
+        users = q.offset(skip).limit(limit).all()
+        return users
+
+    if search:
+        q = q.filter(
+            or_(
+                func.lower(models.User.username.contains(search)),
+                func.lower(models.User.name.contains(search)),
+            )
+        )
+    users = q.offset(skip).limit(limit).all()
+    return users
