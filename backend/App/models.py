@@ -1,6 +1,8 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
-from db.database import Base
+
+# from db.database import Base
 from sqlalchemy.orm import relationship
+from db.base import Base
 
 
 class User(Base):
@@ -12,6 +14,9 @@ class User(Base):
     name = Column(String)
 
     post = relationship("Post", back_populates="user")
+
+    def __repr__(self):
+        return f"id: {self.id}, user_id: {self.id}"
 
 
 class Post(Base):
