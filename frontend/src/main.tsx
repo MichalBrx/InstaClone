@@ -13,18 +13,19 @@ import {authApi} from './app/api/authAPI'
 
 
 
-store.dispatch(authApi.endpoints.getAllUsers.initiate({})) 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <BrowserRouter>
 
-<Provider store={store}>
-    <Routes>
+store.dispatch(authApi.endpoints.getAllUsers.initiate({}))
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+
+<BrowserRouter>
+  <Provider store={store}>
+    <Routes >
       <Route path='/' element={<Scroll />} />
       <Route path="Register" element={<Register />} />
       <Route path="Login" element={<Login />} />
 
     </Routes>
-    </Provider>
-
+  </Provider>
 </BrowserRouter>
+
 )
