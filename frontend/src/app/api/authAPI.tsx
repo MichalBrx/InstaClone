@@ -36,6 +36,12 @@ export const authApi = createApi({
         getAllUsers: builder.query<User, void>({
             query: () => "/allusers"
         }),
+        signOut: builder.mutation({
+            query: () => ({
+                url: "/logout",
+                method: "DELETE"
+            })
+        }),
         uploadFile: builder.mutation<Posts, any>({
             query: (body) => ({
                 url: "/upload",
@@ -45,6 +51,12 @@ export const authApi = createApi({
         }),
         getAllPosts: builder.query<Posts, void>({
             query: () => "/getAllPosts"
+        }),
+        getSearch: builder.mutation<User[], string>({
+            query: (search) => ({
+                url: `/search/?search=${search}&skip=0&limit=5`,
+                method: 'GET'
+            })
         })
 
     })
@@ -54,8 +66,10 @@ export const {
     useLoginUserMutation, 
     useGetCurrentUserQuery, 
     useGetAllUsersQuery,
+    useSignOutMutation,
     useUploadFileMutation,
-    useGetAllPostsQuery
+    useGetAllPostsQuery,
+    useGetSearchMutation
     } = authApi
 
 

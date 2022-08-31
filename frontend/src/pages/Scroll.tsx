@@ -4,17 +4,22 @@ import {FaRegPlusSquare, FaRegCompass, FaRegHeart} from 'react-icons/fa';
 import { IconContext } from "react-icons";
 import { MdHomeFilled } from "react-icons/md";
 import { BsChatDots, BsPersonCircle } from "react-icons/bs";
-import { useGetCurrentUserQuery } from "../app/api/authAPI";
+import { useGetCurrentUserQuery, useSignOutMutation } from "../app/api/authAPI";
 
 import OutsideClickHandler from 'react-outside-click-handler';
 
-import Search from "./components/Search";
+import LookFor from "./components/LookFor";
 import Suggestions from "./components/Suggestions";
 import Newpost from "./components/Newpost";
 import ViewPosts from "./components/ViewPosts";
 
 // TODO || ASAP || przy propozycyjnych znajomych nie moze wyswietlac sie 
 // TODO || profil zalogowanego uzytkownika
+
+//  1. Zrobic wyszukiwarke ludzi
+//  2. Zmienic zmienianie sie proponowanych znajomych po kliknieciu
+//  3. Zapisywac Like'i
+//  4. komentarze
 
 function Scroll() {
 
@@ -23,28 +28,33 @@ function Scroll() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [isCreate, setIsCreate] = useState <boolean>(false)
+  
   const {data, error, isLoading, isSuccess, isError} = useGetCurrentUserQuery()
+  const [logOut] = useSignOutMutation()
 
-  const navigateToLog = () => {
-    navigate("/Login");
-    };
+
 
 
   useEffect(() => {
     if(error === undefined){
 
     } else {
-      navigateToLog()
+      navigate("/Login");
     }
   }, [error, data])
 
 
-
-
-
+  const handleLogOut = async () => {
+    try {
+      await logOut({}).unwrap()
+      navigate("/Login");
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 const dropDown = (
-  <div id="dropdown" className="relative w-14rem bg-white rounded divide-y divide-txt_grey shadow-lg z-10">
+  <div id="dropdown" className="relative w-14rem bg-white rounded divide-y divide-txt_grey shadow-lg z-10" >
     <ul className="dropdown-menu border-whi_gray">
       <li>
         <a href="#" className="block py-1 px-4 hover:bg-whi_gray ">Profile</a>
@@ -59,24 +69,20 @@ const dropDown = (
         <a href="#" className="block py-1 px-4 hover:bg-whi_gray ">Switch accounts</a>
       </li>
     </ul>
-    <a href="#" className="block py-1 px-4 hover:bg-whi_gray ">Log Out</a>
+    <a onClick={() => handleLogOut()} className="block py-1 px-4 hover:bg-whi_gray ">Log Out</a>
   </div>
 )
 
 
 
-  const [searchValue, setSearchValue] = useState<string>("")
-
-
-
-  var searchList = (<Search/>)
+  var lookFor = (<LookFor/>)
   var suggestions = (<Suggestions/>)
   var newPost = (<Newpost />)
   var viewPosts = (<ViewPosts />)
 
     return(
-      <div>
-        <div className="flex h-16 border-b border-border_col justify-center bg-navBar mb-7 w-100%">  
+      <div> 
+        <div className="flex h-16 border-b border-border_col justify-center bg-white mb-7 w-100%">  
           <div className="mx-4 flex justify-center items-center">
             <img className="w-104" src="insta.png" alt="Instagram"/>
           </div>
@@ -85,8 +91,8 @@ const dropDown = (
               setIsFocused(false);
           }}>
             <div className="justify-center items-center ml-40 mt-4 w-350" id="tile2">
-                <input data-dropdown-toggle="searchList" className="h-9 w-260 rounded-lg border-none bg-browser py-1 pr-1 pl-4 focus:outline-0" placeholder="Browse" onFocus={() => setIsFocused(!isFocused)} onChange={(e)=> setSearchValue(e.target.value)}/>
-                {isFocused ? searchList : null}
+                <input  data-dropdown-toggle="lookFor" className={isFocused ? "hidden" :"h-9 w-260 rounded-lg border-none bg-browser py-1 pr-1 pl-4 focus:outline-0"} placeholder="Browse" onFocus={() => setIsFocused(!isFocused)} />
+                {isFocused ? lookFor : null}
             </div>
           </OutsideClickHandler>
           <div className="mx-4 flex justify-center items-center  w-25rem" id="tile3">
@@ -128,10 +134,10 @@ const dropDown = (
 
         <div className="flex mb-40 justify-center">
           <div className="justify-center ml-56">
-            <div className="bg-navBar border border-border_col w-29.25rem h-28 rounded-lg mb-4">
+            <div className="bg-white border border-border_col w-29.25rem h-28 rounded-lg mb-4">
 
             </div>
-            <div className="bg-navBar border border-border_col w-29.25rem h-96">
+            <div className="">
                 {viewPosts}
             </div>
           </div>
