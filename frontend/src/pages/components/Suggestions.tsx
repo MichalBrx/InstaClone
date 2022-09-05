@@ -24,8 +24,9 @@ var numbers: Array<any> = []
 
 
   function Component() {
-    
-        const arr = randomNum(0, data.length)
+
+
+    const arr = randomNum(0, data.length)
 
     return (
       <>

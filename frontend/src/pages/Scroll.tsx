@@ -12,6 +12,7 @@ import LookFor from "./components/LookFor";
 import Suggestions from "./components/Suggestions";
 import Newpost from "./components/Newpost";
 import ViewPosts from "./components/ViewPosts";
+import Navbar from "./components/Navbar";
 
 // TODO || ASAP || przy propozycyjnych znajomych nie moze wyswietlac sie 
 // TODO || profil zalogowanego uzytkownika
@@ -75,71 +76,21 @@ const dropDown = (
 
 
 
-  var lookFor = (<LookFor/>)
-  var suggestions = (<Suggestions/>)
-  var newPost = (<Newpost />)
-  var viewPosts = (<ViewPosts />)
 
     return(
       <div> 
-        <div className="flex h-16 border-b border-border_col justify-center bg-white mb-7 w-100%">  
-          <div className="mx-4 flex justify-center items-center">
-            <img className="w-104" src="insta.png" alt="Instagram"/>
-          </div>
-          <OutsideClickHandler
-            onOutsideClick={() => {
-              setIsFocused(false);
-          }}>
-            <div className="justify-center items-center ml-40 mt-4 w-350" id="tile2">
-                <input  data-dropdown-toggle="lookFor" className={isFocused ? "hidden" :"h-9 w-260 rounded-lg border-none bg-browser py-1 pr-1 pl-4 focus:outline-0"} placeholder="Browse" onFocus={() => setIsFocused(!isFocused)} />
-                {isFocused ? lookFor : null}
-            </div>
-          </OutsideClickHandler>
-          <div className="mx-4 flex justify-center items-center  w-25rem" id="tile3">
-            <IconContext.Provider value={{className: "h-7 mx-3 w-1.75rem"}}>
-            <div className="h-7 mx-3 w-1.75rem cursor-pointer">
-              <MdHomeFilled/>
-            </div>
-            <div id="chat" className="h-7 mx-3 w-1.75rem cursor-pointer">
-              <BsChatDots/>
-            </div>
-            <OutsideClickHandler
-              onOutsideClick={() => {
-              setIsCreate(false);
-            }}>
-            <div id="create_post" className="h-7 mx-3 w-1.75rem cursor-pointer">
-              <button onClick={() => setIsCreate(true)}><FaRegPlusSquare/></button>
-              {isCreate ? newPost : null}
-            </div></OutsideClickHandler>
-            <div id="discover" className="h-7 mx-3 w-1.75rem cursor-pointer">
-              <FaRegCompass/>
-            </div>
-            <div id="likes" className="h-7 mx-3 w-1.75rem cursor-pointer">
-              <FaRegHeart/>
-            </div>
-            <OutsideClickHandler
-              onOutsideClick={() => {
-              setIsOpen(false);
-            }}>
-              <div id="profile" className="h-7 mx-3 w-1.75rem cursor-pointer">
-                <button onClick={() => setIsOpen(!isOpen)} data-dropdown-toggle="dropdown" type="button">
-                  <BsPersonCircle />
-                </button>
-                {isOpen ? dropDown : null}
-              </div>
-            </OutsideClickHandler>
-            </IconContext.Provider>
-          </div>
-        </div>
+
+        <Navbar />
 
         <div className="flex mb-40 justify-center">
           <div className="justify-center ml-56">
-            <div className="bg-white border border-border_col w-29.25rem h-28 rounded-lg mb-4">
 
+            <div className="bg-white border border-border_col w-29.25rem h-28 rounded-lg mb-4">
+              Here should be followed pepole
             </div>
-            <div className="">
-                {viewPosts}
-            </div>
+
+            <ViewPosts />
+
           </div>
 
           <div className="w-350  h-20 ml-8 ">
@@ -153,17 +104,15 @@ const dropDown = (
                 </div>
                 
               </div>
-              <p className="text-txt_grey text-sm font-semibold my-3">
-                Suggestions For You
-              </p>
 
-              <div id="other_users" className="">
-                {suggestions}
-              </div> 
-            
+              <div>
+
+                <p className="text-txt_grey text-sm font-semibold my-3"> Suggestions For You </p>
+                <Suggestions/>
+
+              </div>
 
              <p className="text-txt_grey text-xs mt-3"> © 2022 INSTAGRAM FROM MICHAL</p>
-
 
           </div>
 
