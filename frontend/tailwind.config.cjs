@@ -46,7 +46,9 @@ module.exports = {
     inset: {
       '-40rem': '-40rem',
       '-2rem': '-2rem',
-      "-w-screen": "150rem"
+      "-w-screen": "150rem",
+      "-10rem": "-10rem",
+      '-0.5rem': '-1rem',
     },
     boxShadow: { 
       // It makes darkness background around component
